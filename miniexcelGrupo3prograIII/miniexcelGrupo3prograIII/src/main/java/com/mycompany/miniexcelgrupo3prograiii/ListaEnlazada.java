@@ -4,84 +4,48 @@
  */
 package com.mycompany.miniexcelgrupo3prograiii;
 
+
+
 /**
  *
  * @author danyt
  */
-public class ListaEnlazada {
-    private Celda primerCelda; 
-    
-    public ListaEnlazada (){
-        this.primerCelda = null; 
-    }
-    
-     // Método para insertar un valor en una celda específica
-    public void insertar(int fila, int columna, Object valor ){
-        if(primerCelda == null ){
-            primerCelda = new Celda(valor);
-            return;
-        }
-        
-        Celda actual = primerCelda; 
-        for(int i=0; i< fila ; i++){
-            if(actual.getAbajo() == null){
-                actual.setAbajo(new Celda(null));
-            }
-            actual = actual.getAbajo(); 
-        }
-        
-        for(int j =0 ; j < columna; j++){
-            if(actual.getDerecha()==null){
-                actual.setDerecha(new Celda(null));
-            }
-            actual = actual.getDerecha(); 
-        }
-        
-        actual.setValor(valor);
-    }        
-    
-    
-    // Método para buscar una celda en una posición dada
-    public Celda buscar(int fila, int columan){
-        Celda actual = primerCelda;
-        for (int i=0; i< fila && actual != null ; i++){
-            actual = actual.getAbajo(); 
-        }
-        for(int j = 0; j< columan && actual != null; j++){
-            actual= actual.getDerecha(); 
-        }
-        return actual; 
-    }
-    
-    // Método para eliminar una celda (poniendo su valor en null y ajustando enlaces)
-    
-    public void eliminar (int fila, int columna){
-        Celda actual = buscar(fila, columna); 
-        if(actual != null){
-            actual.setValor(null);
-        }
-    }
-        
-    // Método para mostrar la hoja de cálculo en consola
-    // este es para hacer pruebas sin el usa de la interfas grafica que le corresponde a mi compañero
-    
-    public void mostrar(){
-        Celda filaActual = primerCelda;
-        while(filaActual != null){
-            Celda columnaActual = filaActual; 
-            while(columnaActual != null){
-                System.out.print((columnaActual.getValor() != null ? columnaActual.getValor() : "")+ "\t");
-                columnaActual = columnaActual.getDerecha();
-            }
-            System.out.println();
-            filaActual = filaActual.getAbajo(); 
-            
-            }        
-        
+class ListaEnlazada {
+        Celda nodo;
+
+        public ListaEnlazada() {
+            nodo = null;
         }
 
-    }
-    
-    
-    
+        // Método para agregar celdas a la lista enlazada
+        public void agregarCelda(int fila, int columna, String valor) {
+            Celda nuevaCelda = new Celda(fila, columna, valor);
+            if (nodo == null) {
+                nodo = nuevaCelda;
+            } else {
+                Celda temp = nodo;
+                while (temp.derecha != null) {
+                    temp = temp.derecha;
+                }
+                temp.derecha = nuevaCelda;
+            }
+        }
 
+        // Método para recorrer la lista enlazada y mostrar los valores
+        public String recorrerLista() {
+            StringBuilder resultado = new StringBuilder();
+            Celda temp = nodo;
+            while (temp != null) {
+                if (!temp.valor.isEmpty()) {
+                    resultado.append(temp.valor).append(", "); // Agregar sin exceso de espacio
+                }
+                temp = temp.derecha;
+            }
+            return resultado.toString().trim(); // Quitar espacio al final
+        }
+        
+        public void limpiarLista() {
+            nodo = null;
+        }
+     
+    }
