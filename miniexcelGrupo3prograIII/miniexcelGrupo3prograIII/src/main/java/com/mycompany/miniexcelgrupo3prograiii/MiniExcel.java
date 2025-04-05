@@ -4,12 +4,12 @@
  */
 package com.mycompany.miniexcelgrupo3prograiii;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class MiniExcel {
+
     public JPanel crearPanel() {
         // Crear el panel principal
         JPanel panel = new JPanel();
@@ -57,10 +57,19 @@ public class MiniExcel {
         panel.add(scrollPane, BorderLayout.CENTER);
         panel.add(btnMostrar, BorderLayout.SOUTH);
         panel.add(textAreaScroll, BorderLayout.NORTH);
+        
+//-----------------------------------------------------------------------------------------------------------------------------------
 
+        tabla.getModel().addTableModelListener(e -> {
+            int fila = e.getFirstRow();
+            int columna = e.getColumn();
+            Object valor = tabla.getValueAt(fila, columna);
+
+            if (valor != null && valor.toString().startsWith("=")) {
+                String resultado = FormulaEvaluator.evaluarFormula(valor.toString(), tabla);
+                tabla.setValueAt(resultado, fila, columna); // Reemplaza la fórmula por el resultado
+            }
+        });
         return panel;
     }
 }
-
-  
-
