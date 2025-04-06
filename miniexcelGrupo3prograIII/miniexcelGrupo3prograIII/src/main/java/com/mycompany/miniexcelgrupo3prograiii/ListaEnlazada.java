@@ -18,45 +18,55 @@ public class ListaEnlazada {
     }
 
     public void insertar(int fila, int columna, String valor) {
-        Celda nueva = new Celda(fila, columna, valor);
-        
-        if (cabeza == null) {
-            cabeza = nueva;
-            return;
-        }
+    if (cabeza == null) {
+        cabeza = new Celda(fila, columna, valor);
+        return;
+    }
 
-        // Buscar posición por fila
-        Celda actualFila = cabeza, anteriorFila = null;
-        while (actualFila != null && actualFila.fila < fila) {
-            anteriorFila = actualFila;
-            actualFila = actualFila.abajo;
-        }
+    Celda filaActual = cabeza;
+    Celda anteriorFila = null;
 
-        // Buscar posición por columna
-        Celda actualColumna = cabeza, anteriorColumna = null;
-        while (actualColumna != null && actualColumna.columna < columna) {
-            anteriorColumna = actualColumna;
-            actualColumna = actualColumna.derecha;
-        }
+    // Buscar o crear la fila
+    while (filaActual != null && filaActual.fila < fila) {
+        anteriorFila = filaActual;
+        filaActual = filaActual.abajo;
+    }
 
-        // Insertar en fila
+    if (filaActual == null || filaActual.fila != fila) {
+        Celda nuevaFila = new Celda(fila, -1, "");
         if (anteriorFila != null) {
-            nueva.abajo = anteriorFila.abajo;
-            anteriorFila.abajo = nueva;
-        } else if (cabeza.fila > fila) {
-            nueva.abajo = cabeza;
-            cabeza = nueva;
+            nuevaFila.abajo = anteriorFila.abajo;
+            anteriorFila.abajo = nuevaFila;
+        } else {
+            nuevaFila.abajo = cabeza;
+            cabeza = nuevaFila;
         }
+        filaActual = nuevaFila;
+    }
 
-        // Insertar en columna
-        if (anteriorColumna != null) {
-            nueva.derecha = anteriorColumna.derecha;
-            anteriorColumna.derecha = nueva;
-        } else if (cabeza.columna > columna) {
-            nueva.derecha = cabeza;
-            cabeza = nueva;
+    // Buscar la celda en la fila
+    Celda celdaActual = filaActual;
+    Celda anteriorCelda = null;
+
+    while (celdaActual != null && celdaActual.columna < columna) {
+        anteriorCelda = celdaActual;
+        celdaActual = celdaActual.derecha;
+    }
+
+    if (celdaActual != null && celdaActual.columna == columna) {
+        celdaActual.valor = valor; // ya existe, solo actualizar
+    } else {
+        Celda nueva = new Celda(fila, columna, valor);
+        if (anteriorCelda != null) {
+            nueva.derecha = anteriorCelda.derecha;
+            anteriorCelda.derecha = nueva;
+        } else {
+            nueva.derecha = filaActual.derecha;
+            filaActual.derecha = nueva;
         }
     }
+}
+
 
     public String obtener(int fila, int columna) {
         Celda actual = cabeza;
@@ -92,26 +102,22 @@ public class ListaEnlazada {
     }
 
     public String recorrerLista() {
-        StringBuilder sb = new StringBuilder();
-        Celda fila = cabeza;
-        while (fila != null) {
-            Celda columna = fila;
-            while (columna != null) {
-                sb.append("(")
-                  .append(columna.fila)
-                  .append(",")
-                  .append(columna.columna)
-                  .append(")=")
-                  .append(columna.valor)
-                  .append("   ");
-                columna = columna.derecha;
+    StringBuilder resultado = new StringBuilder();
+    Celda filaActual = cabeza;
+
+    while (filaActual != null) {
+        Celda celdaActual = filaActual;
+        while (celdaActual != null) {
+            if (celdaActual.valor != null && !celdaActual.valor.isEmpty()) {
+                resultado.append(celdaActual.valor).append(", ");
             }
-            sb.append("\n");
-            fila = fila.abajo;
+            celdaActual = celdaActual.derecha;
         }
-        return sb.toString();
+        filaActual = filaActual.abajo;
     }
-    
+    return resultado.toString();
+}
+        
     public  void limpiar(){
         cabeza = null; 
     }
