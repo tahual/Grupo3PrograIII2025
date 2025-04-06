@@ -12,15 +12,15 @@ import javax.swing.SwingUtilities;
  * @author danyt
  */
 public class MiniexcelGrupo3prograIII {
-    public static void main(String[] args) {
+      public static void main(String[] args) {
         // Crear la ventana principal
         JFrame frame = new JFrame("Mini Excel");
         frame.setSize(600, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Crear una instancia de MiniExcelGUI y obtener el panel
-        MiniExcel miniExcelGUI = new MiniExcel();
-        JPanel panel = miniExcelGUI.crearPanel();
+        // Crear una instancia de MiniExcel y obtener el panel
+        MiniExcel miniExcel = new MiniExcel();
+        JPanel panel = miniExcel.crearPanel();
 
         // Agregar el panel a la ventana y hacerla visible
         frame.add(panel);

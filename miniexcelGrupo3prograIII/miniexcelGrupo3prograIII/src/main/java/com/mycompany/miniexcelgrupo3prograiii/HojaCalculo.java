@@ -8,50 +8,29 @@ package com.mycompany.miniexcelgrupo3prograiii;
  *
  * @author Marlon Cuco
  */
-public class HojaCalculo {
-    private Celda inicio;
+class HojaCalculo {
+    private ListaEnlazada datos;
 
     public HojaCalculo() {
-        this.inicio = null;
+        this.datos = new ListaEnlazada();
     }
 
-    // Método para insertar un valor en una celda específica
-    public void insertarValor(int fila, int columna, String valor) {
-        Celda nuevaCelda = new Celda(fila, columna, valor);
-        if (inicio == null) {
-            inicio = nuevaCelda;
-        } else {
-            Celda temp = inicio;
-            while (temp.abajo != null) {
-                temp = temp.abajo;
-            }
-            temp.abajo = nuevaCelda;
-        }
+    public void insertar(int fila, int columna, String valor) {
+        datos.insertar(fila, columna, valor);
     }
 
-    // Método para recuperar un valor de una celda específica
-    public String obtenerValor(int fila, int columna) {
-        Celda actual = inicio;
-        while (actual != null) {
-            if (actual.fila == fila && actual.columna == columna) {
-                return actual.valor;
-            }
-            actual = actual.abajo;
-        }
-        return ""; // Retorna cadena vacía si no se encuentra la celda
+    public String obtener(int fila, int columna) {
+        return datos.obtener(fila, columna);
     }
 
-    // Método para mostrar todos los valores almacenados
-    public String mostrarValores() {
-        StringBuilder resultado = new StringBuilder();
-        Celda actual = inicio;
-        while (actual != null) {
-            if (!actual.valor.isEmpty()) {
-                resultado.append(actual.valor).append(", ");
-            }
-            actual = actual.abajo;
-        }
-        return resultado.toString().trim();
+    public void eliminar(int fila, int columna) {
+        datos.eliminar(fila, columna);
     }
+
+        public String mostrar() {
+        return datos.recorrerLista();  // Llama al método de la otra clase
+    }
+
+    
 }
     

@@ -11,14 +11,12 @@ import java.awt.event.*;
 public class MiniExcel {
 
     public JPanel crearPanel() {
-        // Crear el panel principal
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        // Crear la lista enlazada
         ListaEnlazada listaenlazada = new ListaEnlazada();
 
-        // Crear la tabla (JTable)
+        // Cabeceras
         String[] columnas = {"", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
         Object[][] datos = new Object[10][11];
         for (int i = 0; i < 10; i++) {
@@ -28,7 +26,6 @@ public class MiniExcel {
         JTable tabla = new JTable(datos, columnas);
         JScrollPane scrollPane = new JScrollPane(tabla);
 
-        // Crear un botón para mostrar el contenido de la lista enlazada
         JButton btnMostrar = new JButton("Mostrar Lista Enlazada");
         JTextArea textArea = new JTextArea(5, 30);
         textArea.setEditable(false);
@@ -37,29 +34,23 @@ public class MiniExcel {
         btnMostrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                listaenlazada.limpiarLista(); // Limpiar la lista antes de agregar nuevos datos
-                textArea.setText(""); // Limpiar el JTextArea
+                listaenlazada.limpiar(); // Limpiar la lista enlazada
+                textArea.setText("");
 
-                // Recorrer la tabla y agregar las celdas a la lista enlazada
                 for (int i = 0; i < 10; i++) {
                     for (int j = 1; j <= 10; j++) {
                         String valor = tabla.getValueAt(i, j) == null ? "" : tabla.getValueAt(i, j).toString();
-                        listaenlazada.agregarCelda(i + 1, j, valor);
+                        if (!valor.isEmpty()) {
+                            listaenlazada.insertar(i + 1, j, valor);
+                        }
                     }
                 }
 
-                // Mostrar el resultado actualizado de la lista enlazada en el JTextArea
                 textArea.setText(listaenlazada.recorrerLista());
             }
         });
 
-        // Agregar los componentes al panel
-        panel.add(scrollPane, BorderLayout.CENTER);
-        panel.add(btnMostrar, BorderLayout.SOUTH);
-        panel.add(textAreaScroll, BorderLayout.NORTH);
-        
-//-----------------------------------------------------------------------------------------------------------------------------------
-
+        // Evaluación de fórmulas ----------------------------------------------------------
         tabla.getModel().addTableModelListener(e -> {
             int fila = e.getFirstRow();
             int columna = e.getColumn();
@@ -67,9 +58,14 @@ public class MiniExcel {
 
             if (valor != null && valor.toString().startsWith("=")) {
                 String resultado = FormulaEvaluator.evaluarFormula(valor.toString(), tabla);
-                tabla.setValueAt(resultado, fila, columna); // Reemplaza la fórmula por el resultado
+                tabla.setValueAt(resultado, fila, columna); // Reemplaza fórmula por resultado
             }
         });
+
+        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(btnMostrar, BorderLayout.SOUTH);
+        panel.add(textAreaScroll, BorderLayout.NORTH);
+
         return panel;
     }
 }
