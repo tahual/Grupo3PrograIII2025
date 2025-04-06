@@ -5,6 +5,11 @@ import java.util.regex.Pattern;
 
 import javax.swing.JTable;
 
+/**
+ *
+ * @author Javier Palma
+ */
+
 public class FormulaEvaluator {
 
     public static String evaluarFormula(String formula, JTable tabla) {

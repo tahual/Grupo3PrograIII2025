@@ -8,6 +8,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ *
+ * @author danyt
+ */
+
 public class MiniExcel {
 
     public JPanel crearPanel() {
