@@ -39,7 +39,7 @@ public class MiniexcelGrupo3prograIII {
                // Crear la ventana principal
         JFrame frame = new JFrame("Mini Excel");
         frame.setSize(600, 400);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Crear una instancia de MiniExcel y obtener el panel
         MiniExcel miniExcel = new MiniExcel();
@@ -50,6 +50,7 @@ public class MiniexcelGrupo3prograIII {
         frame.setVisible(true);
             break;
         case 4:
+            System.out.println("gracias por usar nuestro sistema");
             break;
             
             default:
