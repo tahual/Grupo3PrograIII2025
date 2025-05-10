@@ -37,14 +37,14 @@ public class MiniexcelGrupo3prograIII {
             System.out.println("4. Salir");
             try {
                 opcion = scanner.nextInt();
-                scanner.nextLine(); // Limpiar buffer
+                scanner.nextLine();
 
                 switch (opcion) {
                     case 1:
-                        // Aquí iría la lógica del Árbol Binario
+                        //Lógica del Árbol Binario
                         break;
                     case 2:
-                        // Aquí iría la lógica para el Árbol AVL
+                        //Lógica para el Árbol AVL
                         System.out.print("Ingrese el nombre del arbol AVL: ");
                         String nombreArbol = scanner.nextLine();
                         Arboles nuevoArbol = new Arboles();
@@ -96,12 +96,12 @@ public class MiniexcelGrupo3prograIII {
                                     continuar = false;
                                     break;
                                 default:
-                                    System.out.println("Opción no válida. Intente de nuevo.");
+                                    System.out.println("Opcion no valida. Intente de nuevo.");
                             }
                         }
                         break;
                     case 3:
-                        // Aquí iría la lógica para Mini Excel
+                        //Lógica para Mini Excel
                         JFrame miniExcelFrame = new JFrame("Mini Excel");
                         miniExcelFrame.setSize(600, 400);
                         miniExcelFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -121,7 +121,7 @@ public class MiniexcelGrupo3prograIII {
 
             } catch (Exception e) {
                 System.out.println("Error. Ingrese un número válido.");
-                scanner.nextLine(); // Limpiar buffer
+                scanner.nextLine();
             }
 
         } while (opcion != 4);
