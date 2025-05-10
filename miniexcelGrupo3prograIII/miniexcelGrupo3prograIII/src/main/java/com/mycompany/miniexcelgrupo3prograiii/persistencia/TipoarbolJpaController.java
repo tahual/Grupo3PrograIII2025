@@ -21,7 +21,6 @@ public class TipoarbolJpaController {
         this.em = em;
     }
 
-    // Método para crear un TipoArbol
     public void create(Tipoarbol tipoarbol) {
         EntityTransaction transaction = em.getTransaction();
         try {
@@ -34,20 +33,6 @@ public class TipoarbolJpaController {
         }
     }
 
-    // Método para editar un TipoArbol
-    public void edit(Tipoarbol tipoarbol) {
-        EntityTransaction transaction = em.getTransaction();
-        try {
-            transaction.begin();
-            em.merge(tipoarbol);
-            transaction.commit();
-        } catch (RuntimeException e) {
-            transaction.rollback();
-            throw e;
-        }
-    }
-
-    // Método para eliminar un TipoArbol
     public void remove(Tipoarbol tipoarbol) {
         EntityTransaction transaction = em.getTransaction();
         try {
@@ -68,5 +53,10 @@ public class TipoarbolJpaController {
     // Método para obtener todos los TipoArboles
     public List<Tipoarbol> findAll() {
         return em.createQuery("SELECT t FROM Tipoarbol t", Tipoarbol.class).getResultList();
+    }
+    
+    public String obtenerNombreTipoArbol(int idTipoArbol) {
+        Tipoarbol tipoArbol = find(idTipoArbol);
+        return tipoArbol != null ? tipoArbol.getNombre() : null;
     }
 }

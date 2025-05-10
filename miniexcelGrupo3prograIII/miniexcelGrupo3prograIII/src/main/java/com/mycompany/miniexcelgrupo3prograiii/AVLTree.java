@@ -8,6 +8,7 @@ import com.mycompany.miniexcelgrupo3prograiii.bd.Arboles;
 import com.mycompany.miniexcelgrupo3prograiii.bd.Nodos;
 import com.mycompany.miniexcelgrupo3prograiii.persistencia.ArbolesJpaController;
 import com.mycompany.miniexcelgrupo3prograiii.persistencia.NodosJpaController;
+import com.mycompany.miniexcelgrupo3prograiii.persistencia.TipoarbolJpaController;
 
 /**
  *
@@ -17,14 +18,18 @@ public class AVLTree {
 
     private Nodos raiz;
     private Arboles arbolActual;
+    private TipoarbolJpaController tipoArbolController;
+    private ArbolesJpaController arbolesController;
 
     public AVLTree(Arboles arbol) {
         this.arbolActual = arbol;
+        this.tipoArbolController = tipoArbolController;
+        this.arbolesController = arbolesController;
         this.raiz = null;
     }
 
     public AVLTree() {
-        this.arbolActual = new Arboles(); // Por defecto si no se pasa uno
+        this.arbolActual = new Arboles();
         this.raiz = null;
     }
 
@@ -195,15 +200,16 @@ public class AVLTree {
         return actual;
     }
 
-    public void guardarAVL(ArbolesJpaController arbolesController) {
+    public void guardarAVL() {
         try {
             if (arbolActual.getIdArbol() == null) {
                 arbolActual.setNombreArbol("Árbol AVL guardado");
                 arbolesController.create(arbolActual);
+                System.out.println("Árbol creado.");
             } else {
                 arbolesController.edit(arbolActual);
+                System.out.println("Árbol actualizado.");
             }
-            System.out.println("Árbol guardado en la base de datos.");
         } catch (Exception e) {
             System.out.println("Error al guardar árbol: " + e.getMessage());
         }

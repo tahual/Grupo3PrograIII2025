@@ -1,6 +1,7 @@
 package com.mycompany.miniexcelgrupo3prograiii;
 
 import com.mycompany.miniexcelgrupo3prograiii.bd.Arboles;
+import com.mycompany.miniexcelgrupo3prograiii.bd.Tipoarbol;
 import com.mycompany.miniexcelgrupo3prograiii.persistencia.ArbolesJpaController;
 import com.mycompany.miniexcelgrupo3prograiii.persistencia.NodosJpaController;
 import com.mycompany.miniexcelgrupo3prograiii.persistencia.TipoarbolJpaController;
@@ -21,7 +22,6 @@ public class MiniexcelGrupo3prograIII {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_miniexcelGrupo3prograIII_jar_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
-        // Crear controladores para la base de datos
         TipoarbolJpaController tipoArbolController = new TipoarbolJpaController(em);
         ArbolesJpaController arbolesController = new ArbolesJpaController(em);
         NodosJpaController nodosController = new NodosJpaController(em);
@@ -47,8 +47,23 @@ public class MiniexcelGrupo3prograIII {
                         //Lógica para el Árbol AVL
                         System.out.print("Ingrese el nombre del arbol AVL: ");
                         String nombreArbol = scanner.nextLine();
+
+                        Tipoarbol tipoAVL = new Tipoarbol();
+                        tipoAVL.setNombre("AVL");//-------------------------------
+                        tipoAVL.setEstado(1);//-----------------------------------
+
+                        try {
+                            tipoArbolController.create(tipoAVL); // guarda el tipo
+                        } catch (Exception e) {
+                            System.out.println("Error al crear Tipoarbol: " + e.getMessage());
+                            return;
+                        }
+
+                        // 2. Crear y guardar el árbol con su tipo
                         Arboles nuevoArbol = new Arboles();
                         nuevoArbol.setNombreArbol(nombreArbol);
+                        nuevoArbol.setIdTipoArbol(tipoAVL);
+
                         try {
                             arbolesController.create(nuevoArbol);
                             System.out.println("Arbol '" + nombreArbol + "' creado con exito.");
@@ -123,7 +138,6 @@ public class MiniexcelGrupo3prograIII {
                 System.out.println("Error. Ingrese un número válido.");
                 scanner.nextLine();
             }
-
         } while (opcion != 4);
     }
 }
