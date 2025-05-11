@@ -49,7 +49,7 @@ public class MiniexcelGrupo3prograIII {
                         String nombreArbol = scanner.nextLine();
 
                         Tipoarbol tipoAVL = new Tipoarbol();
-                        tipoAVL.setNombre("AVL");//-------------------------------
+                        tipoAVL.setNombre(nombreArbol);
                         tipoAVL.setEstado(1);//-----------------------------------
 
                         try {
