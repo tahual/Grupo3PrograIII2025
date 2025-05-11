@@ -31,17 +31,25 @@ public class MiniexcelGrupo3prograIII {
 
         do {
             System.out.println("Ingrese el trabajo que quiere realizar: ");
-            System.out.println("1. Arbol Binario");
+            System.out.println("1. Mini Excel");
             System.out.println("2. AVL");
-            System.out.println("3. Mini Excel");
-            System.out.println("4. Salir");
+            System.out.println("3. Salir");
             try {
                 opcion = scanner.nextInt();
                 scanner.nextLine();
 
                 switch (opcion) {
                     case 1:
-                        //Lógica del Árbol Binario
+                        //Lógica para Mini Excel
+                        JFrame miniExcelFrame = new JFrame("Mini Excel");
+                        miniExcelFrame.setSize(600, 400);
+                        miniExcelFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+                        MiniExcel miniExcel = new MiniExcel();
+                        JPanel panel = miniExcel.crearPanel();
+
+                        miniExcelFrame.add(panel);
+                        miniExcelFrame.setVisible(true);
                         break;
                     case 2:
                         //Lógica para el Árbol AVL
@@ -115,19 +123,8 @@ public class MiniexcelGrupo3prograIII {
                             }
                         }
                         break;
+
                     case 3:
-                        //Lógica para Mini Excel
-                        JFrame miniExcelFrame = new JFrame("Mini Excel");
-                        miniExcelFrame.setSize(600, 400);
-                        miniExcelFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-                        MiniExcel miniExcel = new MiniExcel();
-                        JPanel panel = miniExcel.crearPanel();
-
-                        miniExcelFrame.add(panel);
-                        miniExcelFrame.setVisible(true);
-                        break;
-                    case 4:
                         System.out.println("Gracias por usar nuestro sistema.");
                         break;
                     default:
@@ -138,6 +135,6 @@ public class MiniexcelGrupo3prograIII {
                 System.out.println("Error. Ingrese un número válido.");
                 scanner.nextLine();
             }
-        } while (opcion != 4);
+        } while (opcion != 3);
     }
 }
