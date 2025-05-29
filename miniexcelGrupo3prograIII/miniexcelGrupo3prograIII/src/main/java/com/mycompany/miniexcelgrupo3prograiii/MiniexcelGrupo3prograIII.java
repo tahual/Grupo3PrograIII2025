@@ -143,8 +143,10 @@ public class MiniexcelGrupo3prograIII {
                                     MejorAjuste.ejecutar();
                                     break;
                                 case 'c':
-                                    System.out.println("Opcion aun no implementada!!");
+
+                                    PeorAjuste.ejecutar();
                                     break;
+
                                 case 'd':
                                     enSubmenu = false;
                                     break;
