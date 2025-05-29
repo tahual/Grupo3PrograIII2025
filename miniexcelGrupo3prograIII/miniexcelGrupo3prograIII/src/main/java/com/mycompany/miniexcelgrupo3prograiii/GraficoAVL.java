@@ -38,9 +38,9 @@ public class GraficoAVL extends JPanel {
     private void dibujarNodo(Graphics g, Nodos nodo, int x, int y, int nivel) {
     if (nodo == null) return;
 
-    int radio = 20; // Tamaño del nodo
-    int offsetY = 50; // Separación vertical entre niveles
-    int offsetX = (int) (getWidth() / Math.pow(2, nivel + 2)); // Separación horizontal variable
+    int radio = 20;
+    int offsetY = 50;
+    int offsetX = (int) (getWidth() / Math.pow(2, nivel + 2));
 
     // Dibujar línea a hijo izquierdo
     if (nodo.getIzquierda() != null) {

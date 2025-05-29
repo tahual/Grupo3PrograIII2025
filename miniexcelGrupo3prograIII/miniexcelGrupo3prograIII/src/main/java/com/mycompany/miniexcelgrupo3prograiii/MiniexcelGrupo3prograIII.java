@@ -30,10 +30,11 @@ public class MiniexcelGrupo3prograIII {
         int opcion = 0;
 
         do {
-            System.out.println("Ingrese el trabajo que quiere realizar: ");
-            System.out.println("1. Mini Excel");
+            System.out.println("\n1. Mini Excel");
             System.out.println("2. AVL");
-            System.out.println("3. Salir");
+            System.out.println("3. Administracion de Memoria");
+            System.out.println("0. Salir");
+            System.out.print("Ingrese el trabajo que quiere realizar: ");
             try {
                 opcion = scanner.nextInt();
                 scanner.nextLine();
@@ -123,8 +124,36 @@ public class MiniexcelGrupo3prograIII {
                             }
                         }
                         break;
-
                     case 3:
+                        boolean enSubmenu = true;
+                        while (enSubmenu) {
+                            System.out.println("\n== Administracion de Memoria ==");
+                            System.out.println("a. Primer ajuste");
+                            System.out.println("b. Mejor ajuste");
+                            System.out.println("c. Peor ajuste");
+                            System.out.println("d. Volver al menu principal");
+                            System.out.print("Seleccione una opcion: ");
+                            char subopcion = scanner.next().toLowerCase().charAt(0);
+
+                            switch (subopcion) {
+                                case 'a':
+                                    System.out.println("Opcion aun no implementada!!");
+                                    break;
+                                case 'b':
+                                    MejorAjuste.ejecutar();
+                                    break;
+                                case 'c':
+                                    System.out.println("Opcion aun no implementada!!");
+                                    break;
+                                case 'd':
+                                    enSubmenu = false;
+                                    break;
+                                default:
+                                    System.out.println("Opcion invalida!! Intente de nuevo");
+                            }
+                        }
+                        break;
+                    case 0:
                         System.out.println("Gracias por usar nuestro sistema.");
                         break;
                     default:
@@ -135,6 +164,6 @@ public class MiniexcelGrupo3prograIII {
                 System.out.println("Error. Ingrese un número válido.");
                 scanner.nextLine();
             }
-        } while (opcion != 3);
+        } while (opcion != 0);
     }
 }
