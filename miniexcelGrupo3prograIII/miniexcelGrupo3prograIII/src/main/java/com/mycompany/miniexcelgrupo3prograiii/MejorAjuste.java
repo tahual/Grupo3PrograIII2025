@@ -2,6 +2,7 @@ package com.mycompany.miniexcelgrupo3prograiii;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -9,99 +10,69 @@ import java.util.List;
  */
 public class MejorAjuste {
 
-    static class Bloque {
-
-        int tamaño;
-        boolean ocupado;
-        byte[] memoriaAsignada = null;
-
-        Bloque(int tamaño) {
-            this.tamaño = tamaño;
-            this.ocupado = false;
-        }
-
-        @Override
-        public String toString() {
-            return "[" + tamaño + " KB, " + (ocupado ? "Ocupado" : "Libre") + "]";
-        }
-    }
-
-    static class Proceso {
-
-        int tamaño;
-
-        Proceso(int tamaño) {
-            this.tamaño = tamaño;
-        }
-    }
+    private static final List<Memoria.Bloque> bloques = new ArrayList<>();
 
     public static void ejecutar() {
-        System.out.println("\n=== Mejor Ajuste (Simulacion de memoria) ===");
+        inicializarBloques();
 
-        List<Bloque> bloques = new ArrayList<>(List.of(
-                new Bloque(100),
-                new Bloque(500),
-                new Bloque(200),
-                new Bloque(300),
-                new Bloque(600)
-        ));
+        Scanner scanner = new Scanner(System.in);
+        boolean seguir = true;
 
-        List<Proceso> procesos = new ArrayList<>(List.of(
-                new Proceso(212),
-                new Proceso(417),
-                new Proceso(112),
-                new Proceso(426)
-        ));
+        while (seguir) {
+            System.out.println("\n--- Estado actual de memoria ---");
+            mostrarBloques();
 
-        System.out.println("== ESTADO INICIAL DE LOS BLOQUES DE MEMORIA ==");
-        mostrarBloques(bloques);
+            System.out.print("Ingrese el tamano del proceso en KB (0 para salir): ");
+            int tamProceso = scanner.nextInt();
 
-        System.out.println("\n== ASIGNACION DE PROCESOS UTILIZANDO MEJOR AJUSTE ==");
-        for (Proceso proceso : procesos) {
-            int mejorIndice = -1;
-            int menorDiferencia = Integer.MAX_VALUE;
-
-            for (int i = 0; i < bloques.size(); i++) {
-                Bloque bloque = bloques.get(i);
-                if (!bloque.ocupado && bloque.tamaño >= proceso.tamaño) {
-                    int diferencia = bloque.tamaño - proceso.tamaño;
-                    if (diferencia < menorDiferencia) {
-                        menorDiferencia = diferencia;
-                        mejorIndice = i;
-                    }
-                }
+            if (tamProceso <= 0) {
+                seguir = false;
+                break;
             }
 
-            if (mejorIndice != -1) {
-                Bloque seleccionado = bloques.get(mejorIndice);
-                seleccionado.ocupado = true;
+            Memoria.Proceso proceso = new Memoria.Proceso(tamProceso);
+            boolean asignado = asignarMejorAjuste(proceso);
 
-                // Simula la asignación de memoria (KB * 1024 bytes)
-                seleccionado.memoriaAsignada = new byte[proceso.tamaño * 1024];
-
-                System.out.println("Proceso de " + proceso.tamaño + " KB → bloque de " + seleccionado.tamaño + " KB");
+            if (!asignado) {
+                System.out.println("No hay suficiente memoria para asignar el proceso.");
             } else {
-                System.out.println("Proceso de " + proceso.tamaño + " KB → ❌ No se pudo asignar");
-            }
-
-            // Pequeña pausa para ver en VisualVM en tiempo real
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
+                System.out.println("Proceso asignado exitosamente.");
             }
         }
 
-        System.out.println("\n== ESTADO FINAL DE LOS BLOQUES DE MEMORIA ==");
-        mostrarBloques(bloques);
-
-        // Evita que termine el programa para que VisualVM pueda seguir monitoreando
-        System.out.println("\nPresiona Ctrl+C para terminar la simulación y ver en VisualVM...");
-        while (true) {
-        } // Espera infinita para que puedas analizarlo en VisualVM
+        System.out.println("Saliendo del submenú de Mejor Ajuste.");
     }
 
-    private static void mostrarBloques(List<Bloque> bloques) {
+    private static void inicializarBloques() {
+        bloques.clear();
+        bloques.add(new Memoria.Bloque(512));
+        bloques.add(new Memoria.Bloque(1024));
+        bloques.add(new Memoria.Bloque(256));
+        bloques.add(new Memoria.Bloque(2048));
+        bloques.add(new Memoria.Bloque(768));
+    }
+
+    private static boolean asignarMejorAjuste(Memoria.Proceso proceso) {
+        Memoria.Bloque mejorBloque = null;
+
+        for (Memoria.Bloque bloque : bloques) {
+            if (!bloque.ocupado && bloque.tamano >= proceso.tamano) {
+                if (mejorBloque == null || bloque.tamano < mejorBloque.tamano) {
+                    mejorBloque = bloque;
+                }
+            }
+        }
+
+        if (mejorBloque != null) {
+            mejorBloque.memoriaAsignada = new byte[proceso.tamano * 1024]; // Reservamos espacio real en memoria
+            mejorBloque.ocupado = true;
+            return true;
+        }
+
+        return false;
+    }
+
+    private static void mostrarBloques() {
         for (int i = 0; i < bloques.size(); i++) {
             System.out.println("Bloque " + (i + 1) + ": " + bloques.get(i));
         }
