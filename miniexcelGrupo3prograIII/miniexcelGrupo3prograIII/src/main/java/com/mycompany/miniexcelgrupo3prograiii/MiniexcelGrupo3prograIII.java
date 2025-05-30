@@ -137,7 +137,7 @@ public class MiniexcelGrupo3prograIII {
 
                             switch (subopcion) {
                                 case 'a':
-                                    System.out.println("Opcion aun no implementada!!");
+                                    PrimerAjuste.ejecutar();
                                     break;
                                 case 'b':
                                     MejorAjuste.ejecutar();
